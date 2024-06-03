@@ -8,9 +8,11 @@ const innerDiv = document.querySelector('.inner-div');
 const greetDiv = document.querySelector('.greeting')
 const weekdays = document.querySelector('.weekdays');
 
+
+// converting getDay() function to day of the week from number to name
 const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-
+// getting time and date
 const currentTime = new Date();
 const hours = currentTime.getHours();
 const minutes = currentTime.getMinutes();
@@ -22,6 +24,9 @@ let day = weekday[currentTime.getDay()];
 
 
 console.log(currentTime.toLocaleTimeString())
+
+
+// 
 function greeting() {
 
 
@@ -37,7 +42,7 @@ function greeting() {
     displayGreet(greet)
     return greet
 }
-
+// Display the greetig according to time 
 const displayGreet = (message) => {
     const displayGreet = document.createElement('p');
     displayGreet.className = 'greet-message'
@@ -49,15 +54,7 @@ greeting()
 
 
 
-
-
-
-
-
-
-// setInterval(, 1000);
-
-
+// Making the search button clickcable
 searchBtn.addEventListener('click', async (e) => {
     e.preventDefault();
     const userInput = searchInput.value;
@@ -71,11 +68,12 @@ searchBtn.addEventListener('click', async (e) => {
         weatherAppDiv.appendChild(alertMessage);
     } else {
         try {
+            //resetiing the app 
             weatherAppDiv.innerHTML = ``;
             innerDiv.innerHTML = ``;
             weekdays.innerHTML = '';
 
-            'api.openweathermap.org/data/2.5/forecast/daily?q={city name}&appid=${API_KEY}'
+            //fetchiung data from the api using async function
 
             let response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${userInput}&units=metric&appid=${API_KEY}`);
             if (!response.ok) {
@@ -84,6 +82,7 @@ searchBtn.addEventListener('click', async (e) => {
             const data = await response.json();
             console.log(data)
 
+            //creating elemnts in the DOM
             const city = document.createElement('div');
             city.classList.add('city');
             const cityName = document.createElement('p');
@@ -207,6 +206,7 @@ searchBtn.addEventListener('click', async (e) => {
             friTempMax.innerHTML = data.list[4].main.temp_max.toFixed(1);
             fri.append(friValue, friTempMin, friTempMax);
 
+            //displaying elements in the app
             weekdays.append(mon, tue, wed, thur, fri)
 
             weatherAppDiv.append(
@@ -229,6 +229,7 @@ searchBtn.addEventListener('click', async (e) => {
 
             searchInput.value = '';
             return data
+            //catching any errors when fetching data
         } catch (error) {
             console.error(`Error: ${error}`)
         }
